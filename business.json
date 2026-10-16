@@ -19,11 +19,23 @@
   },
   "hours": [],
   "booking": "By appointment (private fittings)",
-  "currency": "JOD",
+  "currency": "USD",
   "shows": [
-    { "title": "Savage Sophistication", "place": "Amman", "date": "" },
-    { "title": "Umbra de Lumina", "place": "Paris Fashion Week", "date": "" },
-    { "title": "Aurora Bordeaux", "place": "Panorama Dead Sea, Jordan", "date": "October 2025" }
+    {
+      "title": "Savage Sophistication",
+      "place": "Amman",
+      "date": ""
+    },
+    {
+      "title": "Umbra de Lumina",
+      "place": "Paris Fashion Week",
+      "date": ""
+    },
+    {
+      "title": "Aurora Bordeaux",
+      "place": "Panorama Dead Sea, Jordan",
+      "date": "October 2025"
+    }
   ],
   "facts_from_their_site": [
     "Founded October 2021 by Norjan Alkharouf, aged 21, as an online page",
@@ -34,7 +46,10 @@
     "Private exhibitions before each new collection"
   ],
   "reviews": [],
-  "colors": { "brand": "#5c1424", "accent": "#c8a97e" },
+  "colors": {
+    "brand": "#5c1424",
+    "accent": "#c8a97e"
+  },
   "links": {
     "website": "https://levorchy.com/en",
     "tiktok": "https://www.tiktok.com/@levorchy",
@@ -46,7 +61,7 @@
     "Does +962 79 000 0979 take WhatsApp messages? (the booking buttons use it)",
     "Instagram handle",
     "Exact street address or a Google Maps pin for the atelier",
-    "Prices are shown in JOD as stored on their site (their site converts to USD by default)",
+    "Prices are shown in US dollars, the same amounts levorchy.com shows (their own data is in JOD)",
     "The name of the newest collection (shown as 'New couture'); the home page groups three of these as 'La foret'",
     "Arabic texts are our translation; Levorchy to approve",
     "Permission to use their photos, and the original high-resolution files"

@@ -65,8 +65,9 @@ def t(en, ar, tag="span", cls=""):
 
 
 def price(l):
-    n = f"{l['price_jod']:,}"
-    return t(f"{n} JOD", f"{n} د.أ")
+    # US dollars, the same amounts levorchy.com shows (their site converts from JOD).
+    n = f"{l['price_usd']:,}"
+    return t(f"${n}", f"{n} دولار")
 
 
 def wa(msg):
@@ -353,7 +354,7 @@ def collection():
       <div class="wrap">
         <p class="kicker">{t("The collection", "المجموعة")}</p>
         <h1>{t("Every piece, made by hand", "كل قطعة، مصنوعة يدوياً")}</h1>
-        <p class="lead">{t("Tap a piece to see it up close and book a fitting for it. Prices in Jordanian dinars.", "اضغطي على أي قطعة لمشاهدتها عن قرب وحجز موعد قياس لها. الأسعار بالدينار الأردني.")}</p>
+        <p class="lead">{t("Tap a piece to see it up close and book a fitting for it. Prices in US dollars.", "اضغطي على أي قطعة لمشاهدتها عن قرب وحجز موعد قياس لها. الأسعار بالدولار الأمريكي.")}</p>
       </div>
     </section>
     <section class="section tight">
@@ -367,7 +368,7 @@ def collection():
     </section>
 """
     page("collection.html", "The collection · Levorchy",
-         "All Levorchy couture pieces: Aurora Bordeaux gowns, Bleu Imperial sets and new couture, with prices in JOD. Book a private fitting in Amman.",
+         "All Levorchy couture pieces: Aurora Bordeaux gowns, Bleu Imperial sets and new couture, with prices in US dollars. Book a private fitting in Amman.",
          body, "collection.html")
 
 
@@ -384,13 +385,13 @@ def look(l):
     more = [m for m in LOOKS if m["collection"] == l["collection"] and m["slug"] != l["slug"]][:4]
     if len(more) < 4:
         more += [m for m in LOOKS if m["slug"] != l["slug"] and m not in more][: 4 - len(more)]
-    en_msg = f"Hello Levorchy, I would like to book a fitting for {l['name']} ({l['price_jod']:,} JOD)."
-    ar_msg = f"مرحباً ليفورشي، أودّ حجز موعد قياس لقطعة {l['name']} ({l['price_jod']:,} د.أ)."
+    en_msg = f"Hello Levorchy, I would like to book a fitting for {l['name']} (${l['price_usd']:,})."
+    ar_msg = f"مرحباً ليفورشي، أودّ حجز موعد قياس لقطعة {l['name']} ({l['price_usd']:,} دولار)."
     ld = {
         "@context": "https://schema.org", "@type": "Product", "name": l["name"],
         "brand": {"@type": "Brand", "name": "Levorchy"}, "description": l["card_en"],
         "image": [f"{up}assets/img/looks/{f}" for f in l["images"]],
-        "offers": {"@type": "Offer", "price": l["price_jod"], "priceCurrency": "JOD",
+        "offers": {"@type": "Offer", "price": l["price_usd"], "priceCurrency": "USD",
                    "availability": "https://schema.org/InStoreOnly"},
     }
     head = f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>'
