@@ -1,0 +1,55 @@
+{
+  "_note": "Every fact about Levorchy lives here and in data/looks.json. Sources: levorchy.com (Home, Shop, Our Story, Get In Touch; read 2026-10-16) and press (flyingsolo.nyc). Anything in 'to_confirm' must be checked with Zaid before launch.",
+  "name": "Levorchy",
+  "tagline": "House of couture, Amman",
+  "category": "Haute couture and ready-to-wear fashion house",
+  "founder": "Norjan Alkharouf",
+  "founded": "October 2021",
+  "phone": "+962 79 000 0979",
+  "phone_digits": "+962790000979",
+  "whatsapp": "962790000979",
+  "email": "info@levorchy.com",
+  "address": {
+    "street": "",
+    "area": "Um Uthaina",
+    "city": "Amman",
+    "region": "",
+    "postal": "",
+    "country": "Jordan"
+  },
+  "hours": [],
+  "booking": "By appointment (private fittings)",
+  "currency": "JOD",
+  "shows": [
+    { "title": "Savage Sophistication", "place": "Amman", "date": "" },
+    { "title": "Umbra de Lumina", "place": "Paris Fashion Week", "date": "" },
+    { "title": "Aurora Bordeaux", "place": "Panorama Dead Sea, Jordan", "date": "October 2025" }
+  ],
+  "facts_from_their_site": [
+    "Founded October 2021 by Norjan Alkharouf, aged 21, as an online page",
+    "Haute couture and ready-to-wear",
+    "Signature colour: burgundy",
+    "Archive of over 2,400 fabrics",
+    "Each gown takes hundreds of hours of handwork",
+    "Private exhibitions before each new collection"
+  ],
+  "reviews": [],
+  "colors": { "brand": "#5c1424", "accent": "#c8a97e" },
+  "links": {
+    "website": "https://levorchy.com/en",
+    "tiktok": "https://www.tiktok.com/@levorchy",
+    "youtube": "https://www.youtube.com/@levorchy",
+    "instagram": "",
+    "google": "https://www.google.com/maps/search/?api=1&query=Levorchy+Um+Uthaina+Amman"
+  },
+  "to_confirm": [
+    "Does +962 79 000 0979 take WhatsApp messages? (the booking buttons use it)",
+    "Instagram handle",
+    "Exact street address or a Google Maps pin for the atelier",
+    "Prices are shown in JOD as stored on their site (their site converts to USD by default)",
+    "The name of the newest collection (shown as 'New couture'); the home page groups three of these as 'La foret'",
+    "Arabic texts are our translation; Levorchy to approve",
+    "Permission to use their photos, and the original high-resolution files"
+  ],
+  "domain": ""
+}
