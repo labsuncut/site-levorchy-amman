@@ -51,44 +51,55 @@
   }
 
   // ---------- Runway ----------
-  // Each look starts small at the far end of the runway, walks toward you as you scroll,
-  // pauses in the spotlight with its name, then passes out of frame.
+  // Each look walks from the far end of the runway toward you as you scroll. When she arrives the
+  // camera moves in on her (per-look focus point and zoom), a close-up photo fades in so the
+  // embroidery can be read, then she walks out of frame and the next look is already on her way.
   const runway = $('#runway');
   if (runway) {
     const looks = $$('[data-look]', runway);
     const count = $('[data-count]', runway);
     if (calm) runway.classList.add('still');
     else {
-      const photos = looks.map((l) => $('.look-photo', l));
+      const parts = looks.map((l) => ({
+        frame: $('.look-photo', l), walk: $('.walk', l), detail: $('.detail', l), zoom: Number(l.dataset.zoom) || 1.4,
+      }));
+      const S = 1.5;                                             // distance between looks, in "steps"
       const ease = (x) => 1 - Math.pow(1 - x, 3);
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const smooth = (a, b, x) => { const k = clamp((x - a) / (b - a)); return k * k * (3 - 2 * k); };
       let ticking = false;
       const draw = () => {
         ticking = false;
         const r = runway.getBoundingClientRect();
-        const total = runway.offsetHeight - innerHeight;
-        const p = Math.min(1, Math.max(0, -r.top / total));     // 0..1 through the section
-        const pos = -0.65 + p * (looks.length - 0.2);             // first look already walking in, last one ends in the spotlight
-        let front = 0;
+        const p = clamp(-r.top / (runway.offsetHeight - innerHeight));
+        const pos = 0.45 + p * ((looks.length - 1) * S + 0.95);  // ends with the last look up close
+        const front = clamp(Math.round((pos - 1.25) / S), 0, looks.length - 1);
         looks.forEach((l, i) => {
-          const t = pos - i + 1;                                  // 0 far away, 1 in the spotlight, 1.6 gone
-          const ph = photos[i];
-          if (t <= 0 || t >= 1.7) { ph.style.opacity = 0; l.classList.remove('show', 'on'); return; }
+          const t = pos - i * S;                                 // 0 far away, 1 arrived, 1.5 leaving, 2.1 gone
+          const { frame, walk, detail, zoom } = parts[i];
+          if (t <= 0 || t >= 2.1) { frame.style.opacity = 0; l.classList.remove('show', 'on', 'detail-on'); return; }
           let scale, y, op, blur;
           if (t < 1) {
             const k = ease(t);
-            scale = 0.22 + 0.78 * k; y = -14 * (1 - k); op = Math.min(1, t * 2.2); blur = (1 - k) * 6;
+            scale = 0.2 + 0.8 * k; y = -16 * (1 - k); op = clamp(t * 2.4); blur = (1 - k) * 6;
+          } else if (t < 1.5) {
+            scale = 1; y = 0; op = 1; blur = 0;
           } else {
-            const k = (t - 1) / 0.7;                              // walks past and out
-            scale = 1 + 0.55 * k; y = 18 * k * k; op = 1 - k * k; blur = k * 3;
+            const k = (t - 1.5) / 0.6;
+            scale = 1 + 0.3 * k; y = 14 * k * k; op = clamp(1 - k * 1.8); blur = k * 4;
           }
-          ph.style.opacity = op.toFixed(3);
-          ph.style.filter = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none';
-          ph.style.transform = `translate(-50%, calc(-50% + ${y.toFixed(2)}vh)) scale(${scale.toFixed(4)})`;
-          ph.style.zIndex = Math.round(t * 100);
-          const inFront = t >= 0.6 && t < 1.6;                    // exactly one look holds the spotlight
-          l.classList.toggle('show', inFront);
-          l.classList.toggle('on', inFront);
-          if (inFront) front = i;
+          const z = 1 + (zoom - 1) * smooth(0.35, 1.05, t);      // the camera moves in on her
+          frame.style.opacity = op.toFixed(3);
+          frame.style.filter = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none';
+          frame.style.transform = `translate(-50%, calc(-50% + ${y.toFixed(2)}vh)) scale(${scale.toFixed(4)})`;
+          frame.style.zIndex = Math.round(t * 100);
+          walk.style.transform = `scale(${z.toFixed(4)})`;
+          const d = detail ? smooth(1.1, 1.3, t) : 0;
+          if (detail) detail.style.opacity = d.toFixed(3);
+          l.classList.toggle('detail-on', d > 0.5);
+          const lit = i === front && t > 0.6 && t < 1.95;
+          l.classList.toggle('show', lit);
+          l.classList.toggle('on', lit);
         });
         if (count) count.textContent = String(front + 1).padStart(2, '0');
       };

@@ -42,7 +42,16 @@ COLLECTIONS = {
 TYPES = {"gown": ("Gowns", "فساتين"), "set": ("Sets", "أطقم"), "bridal": ("Bridal", "زفاف")}
 
 # The six looks that walk the home-page runway, in order (the last one is the hero gown).
-RUNWAY = ["olive-stardust", "teal-horizon", "crimson-dawn", "frozen-aurora", "heart-of-the-aurora", "celestial-dusk"]
+# fx/fy: where the model stands in the photo (percent), zoom: how far the camera moves in when she arrives,
+# detail: a close-up photo that fades in while she holds in the spotlight (None if there is no good one).
+RUNWAY = [
+    ("olive-stardust", 31, 68, 1.9, "olive-stardust-2.webp"),
+    ("teal-horizon", 33, 62, 1.8, "teal-horizon-2.webp"),
+    ("crimson-dawn", 52, 58, 1.45, None),
+    ("frozen-aurora", 51, 70, 2.5, "frozen-aurora-2.webp"),
+    ("heart-of-the-aurora", 50, 68, 1.4, "heart-of-the-aurora-2.webp"),
+    ("celestial-dusk", 53, 57, 1.45, "celestial-dusk-2.webp"),
+]
 
 
 def e(s):
@@ -197,10 +206,17 @@ def card(l, up="", eager=False):
 
 def home():
     show = "assets/img/story/show-aurora-bordeaux.webp"
-    looks = [BY_SLUG[s] for s in RUNWAY]
+    looks = [BY_SLUG[r[0]] for r in RUNWAY]
+
+    def detail(d, l):
+        if not d:
+            return ""
+        w, h = l["sizes"][l["images"].index(d)]
+        return img(f"assets/img/looks/{d}", f"{l['name']}, close-up", w, h, "detail") + f'<span class="up-close">{t("Up close", "عن قرب")}</span>'
+
     runway = "".join(
-        f"""<article class="look" data-look>
-      <a href="looks/{l['slug']}.html" class="look-photo">{img(f"assets/img/looks/{l['images'][0]}", l['name'], *l['sizes'][0])}</a>
+        f"""<article class="look" data-look data-zoom="{r[3]}" style="--fx:{r[1]}%;--fy:{r[2]}%">
+      <a href="looks/{l['slug']}.html" class="look-photo">{img(f"assets/img/looks/{l['images'][0]}", l['name'], *l['sizes'][0], "walk")}{detail(r[4], l)}</a>
       <div class="look-caption">
         <p class="look-num">{t(f"Look {i + 1:02d}", f"الإطلالة {i + 1:02d}")}</p>
         <h3>{e(l['name'])}</h3>
@@ -208,7 +224,7 @@ def home():
         <p class="look-price">{price(l)}</p>
         <a class="link-arrow" href="looks/{l['slug']}.html">{t("View the look", "شاهدي الإطلالة")}</a>
       </div>
-    </article>""" for i, l in enumerate(looks))
+    </article>""" for i, (l, r) in enumerate(zip(looks, RUNWAY)))
 
     cols = ""
     for key, c in COLLECTIONS.items():
