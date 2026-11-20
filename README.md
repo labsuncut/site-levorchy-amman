@@ -25,3 +25,4 @@ Run it after any change, then commit the pages it wrote. GitHub Pages serves the
 - Go through `to_confirm` in `business.json` with Zaid.
 - Set `PREVIEW = False` in `tools/build.py` (removes the "draft preview" bar and the noindex tag), rebuild.
 - Photos and texts come from levorchy.com; we need Levorchy's permission and the original files.
+- Connecting the real domain is the production launch: follow "Launching on the client's domain" in `CLAUDE.md` (Charter v4.0).
